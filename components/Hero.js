@@ -36,7 +36,7 @@ const Hero = () => {
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/pages/reels"
-              className="px-6 py-2 rounded-md bg-[#f1af87b0] hover:bg-[#eea679b0] text-white font-semibold shadow-lg transition-all"
+              className="px-6 py-2 rounded-md bg-[#f1af87b0] hover:bg-purple-600 text-white font-semibold shadow-lg transition-all"
             >
               🎥 Explore Reels
             </Link>

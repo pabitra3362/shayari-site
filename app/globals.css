@@ -3,6 +3,8 @@
 @source "../.flowbite-react/class-list.json";
 @import "tw-animate-css";
 
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
