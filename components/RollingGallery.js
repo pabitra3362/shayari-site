@@ -132,7 +132,7 @@ const RollingGallery = () => {
     <div className="max-w-6xl mx-auto px-4 py-10">
       <Slider {...settings}>
         {items.map((item, index) => (
-          <div key={index} className="px-2" onClick={() => router.push(item.link)}>
+          <div key={index} className="px-2" onClick={() => router.push(`/pages/shayari/${item.link}`)}>
             <div
               className="relative bg-[#f9b58cb0] dark:bg-[#f9b58cb0] text-white p-6 rounded-xl shadow-md text-center min-h-[200px] flex flex-col justify-center items-center overflow-hidden"
               style={{

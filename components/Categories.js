@@ -187,7 +187,7 @@ const Products = () => {
       <div className="flex flex-wrap gap-4">
         {
             categoryArray.map((item,index)=>(
-                <Link className="border border-foreground w-fit px-2 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent-foreground hover:text-accent duration-300" key={index} href={item.link}>
+                <Link className="border border-foreground w-fit px-2 py-1 rounded-md bg-accent text-accent-foreground hover:bg-accent-foreground hover:text-accent duration-300" key={index} href={`/pages/shayari/${item.link}`}>
                     {item.title}
                 </Link>
             ))

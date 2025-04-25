@@ -105,7 +105,7 @@ export default function MyDrawer() {
                   <Link
                     className={`text-wrap text-sm ${item.color ? item.color : "text-foreground"}`}
                     key={index}
-                    href={item.link}
+                    href={`/pages/shayari/${item.link}`}
                   >
                     {item.title}
                   </Link>
