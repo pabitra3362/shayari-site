@@ -103,6 +103,7 @@ export default function MyDrawer() {
                 </div>
                 {categoryArray.map((item, index) => (
                   <Link
+                    onClick={handleClose}
                     className={`text-wrap text-sm ${item.color ? item.color : "text-foreground"}`}
                     key={index}
                     href={`/pages/shayari/${item.link}`}
