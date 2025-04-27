@@ -1,6 +1,6 @@
 "use client";
+import ShayariCard from "@/components/ShayariCard";
 import { useState } from "react";
-import { MdCopyAll } from "react-icons/md";
 import { toast } from "sonner";
 
 const dummyData = [
@@ -62,7 +62,7 @@ export default function ShayariPage() {
           placeholder="Search Shayari..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
-          className="w-full sm:w-2/3 md:w-1/2 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#eea679b0]"
+          className="w-full sm:w-2/3 md:w-1/2 px-4 py-2 border border-foreground focus:border-none rounded-full  focus:outline-none focus:ring-2 focus:ring-[#eea679b0] transition-all duration-300"
         />
       </div>
 
@@ -86,26 +86,11 @@ export default function ShayariPage() {
         <p className="text-center text-gray-500">Koi Shayari nahi mili, sorry 💔</p>
       ) : (
         <div className="grid sm:grid-cols-2 gap-6">
-          {filtered.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white p-5 rounded-2xl shadow-md hover:shadow-lg transition"
-            >
-              <div className="text-sm text-[#eca070b0] mb-2">{item.category}</div>
-              <h2 className="text-xl font-semibold text-gray-800">{item.title}</h2>
-              <p className="text-gray-600 mt-2 whitespace-pre-line">{item.content}</p>
-
-              <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
-                <span>❤️ 12 Likes</span>
-                <button
-                  onClick={() => handleCopybtn(item.content)}
-                  className="cursor-pointer hover:text-[#eea679b0] transition-all duration-300 flex flex-wrap items-center gap-2"
-                >
-                  <MdCopyAll size={20}/> Copy
-                </button>
-              </div>
-            </div>
-          ))}
+          {
+            filtered.map((shayari, index) => (
+              <ShayariCard key={`${shayari}-${index}`} shayari={shayari}/>
+            ))
+          }
         </div>
       )}
     </div>
