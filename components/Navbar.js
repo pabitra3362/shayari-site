@@ -39,9 +39,6 @@ const Navbar = () => {
             <Link href={'/pages/favourites'}>Favourites</Link>
           </li>
           <li>
-            <Link href="/pages/reels">Reels</Link>
-          </li>
-          <li>
             <Link href="/pages/submit-shayari">Submit Shayari</Link>
           </li>
           <li>

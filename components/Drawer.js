@@ -135,15 +135,6 @@ export default function MyDrawer() {
 
             <li onClick={handleClose}>
               <Link
-                href="/pages/reels"
-                className="flex items-center gap-3 pl-2 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
-              >
-                <FaRegPlayCircle /> Reels
-              </Link>
-            </li>
-
-            <li onClick={handleClose}>
-              <Link
                 href="/pages/submit-shayari"
                 className="flex items-center gap-3 pl-2 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
               >
