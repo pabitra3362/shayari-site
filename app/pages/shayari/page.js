@@ -8,7 +8,12 @@ const dummyData = [
   { title: "Muskaan", content: "Teri hansi meri jaan ban gayi,\nTere bina zindagi veeran ban gayi...", category: "Romantic" },
   { title: "Judai", content: "Judai mein bhi tera ehsaas rehta hai,\nHar lamha bas tera saath rehta hai...", category: "Sad" },
   { title: "Hasi", content: "Teri hasi meri zindagi ka sukoon hai,\nTere bina har pal mein dard ka junoon hai...", category: "Romantic" },
-];
+].map((shayari, index) => (
+  {
+    id: index + 1,
+    ...shayari
+  }
+));
 
 const categories = [
   "All",

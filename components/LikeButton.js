@@ -12,6 +12,7 @@ const LikeButton = ({ shayariId }) => {
   }, [shayariId]);
 
   const handleLike = () => {
+    
     const newLikes = likes + 1;
     setLikes(newLikes);
     localStorage.setItem(`likes-${shayariId}`, newLikes);

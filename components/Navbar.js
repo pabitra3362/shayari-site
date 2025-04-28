@@ -21,7 +21,7 @@ const Navbar = () => {
         />
 
         <p className="italic font-extrabold leading-[0.25rem] text-shadow-md lg:text-2xl">
-          Shayarify
+          Shayarspot
         </p>
       </div>
       <div className="right hidden lg:block">
@@ -33,6 +33,12 @@ const Navbar = () => {
             <Categories />
           </li>
           <li>
+            <Link href={'/pages/shayari'}>Shayari</Link>
+          </li>
+          <li>
+            <Link href={'/pages/favourites'}>Favourites</Link>
+          </li>
+          <li>
             <Link href="/pages/reels">Reels</Link>
           </li>
           <li>
@@ -41,9 +47,7 @@ const Navbar = () => {
           <li>
             <ModeToggle />
           </li>
-          <li>
-            <Input type={"text"} placeholder="Search" />
-          </li>
+          
         </ul>
       </div>
 

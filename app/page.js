@@ -6,76 +6,8 @@ import React from "react";
 import Link from "next/link";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { useState, useMemo } from "react";
+import ALL_SHAYARIES from "@/lib/DummyData";
 
-// Moved dummy data outside component to prevent recreation on re-render
-const ALL_SHAYARIES = [
-  {
-    title: "Tanhaai",
-    content:
-      "Tere bina raat adhuri si lagti hai,\nTere khayal mein har subah jagti hai...",
-    category: "Breakup",
-  },
-  {
-    title: "Dosti",
-    content:
-      "Dosti ka jo rishta hai, vo sabse khaas hota hai,\nDil se dil ka jo rishta hai, vo kabhi na door hota hai.",
-    category: "Dosti",
-  },
-  {
-    title: "Love",
-    content:
-      "Tere bina zindagi adhuri hai,\nMeri har ek saans mein tu samayi hai...",
-    category: "Love",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-  {
-    title: "Sad",
-    content:
-      "Dil ki baat kehna mushkil ho gaya hai,\nHar khushi ke baad dard mil gaya hai.",
-    category: "Sad",
-  },
-];
 
 const PAGE_SIZE = 4; // Number of items to load each time
 

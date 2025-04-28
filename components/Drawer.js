@@ -7,11 +7,12 @@ import { ModeToggle } from "./ToogleModes";
 import { Input } from "./ui/input";
 
 // 🧁 Icons
-import { FaHome, FaSearch, FaPenFancy, FaRegPlayCircle } from "react-icons/fa";
+import { FaHome, FaSearch, FaPenFancy, FaRegPlayCircle, FaRegStar } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiCategory } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { SiPoetry } from "react-icons/si";
 
 const categoryArray = [
   { title: "Love", link: "/love", color: "text-red-400" },
@@ -55,7 +56,7 @@ export default function MyDrawer() {
         {/* 🧠 Header Section */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
           <span className="text-white text-xl font-semibold flex items-center gap-2">
-            📝 Shayarify
+            📝 Shayarspot
           </span>
           <div className="flex items-center gap-2">
             <ModeToggle />
@@ -116,6 +117,24 @@ export default function MyDrawer() {
 
             <li onClick={handleClose}>
               <Link
+                href="/pages/shayari"
+                className="flex items-center gap-3 pl-2 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
+              >
+                <SiPoetry /> Shayari
+              </Link>
+            </li>
+
+            <li onClick={handleClose}>
+              <Link
+                href="/pages/favourites"
+                className="flex items-center gap-3 pl-2 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
+              >
+                <FaRegStar /> Favourites
+              </Link>
+            </li>
+
+            <li onClick={handleClose}>
+              <Link
                 href="/pages/reels"
                 className="flex items-center gap-3 pl-2 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all"
               >
@@ -132,31 +151,7 @@ export default function MyDrawer() {
               </Link>
             </li>
 
-            <li className="px-2">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const query = e.target.search.value;
-                  console.log("Searching:", query); // 🪄 Replace with actual search logic
-                }}
-              >
-                <div className="flex items-center gap-2 bg-[#2c2c3f] rounded-md px-2 py-1 border border-gray-600 focus-within:ring-purple-500">
-                  <FaSearch className="text-gray-400" />
-                  <Input
-                    name="search"
-                    type="text"
-                    placeholder="Search"
-                    className="flex-1 bg-transparent text-white placeholder-gray-400 border-0 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="text-sm bg-[#eea679b0] hover:bg-[#eea679b0] text-white px-3 py-1 rounded-md transition"
-                  >
-                    Go
-                  </button>
-                </div>
-              </form>
-            </li>
+            
           </ul>
         </DrawerItems>
       </Drawer>
