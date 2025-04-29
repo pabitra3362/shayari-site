@@ -1,6 +1,6 @@
 "use client";
 import ShayariCard from "@/components/ShayariCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const dummyData = [
@@ -55,6 +55,7 @@ export default function ShayariPage() {
     ));
   }
   
+  
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -98,6 +99,7 @@ export default function ShayariPage() {
           }
         </div>
       )}
-    </div>
+
+</div>
   );
 }
