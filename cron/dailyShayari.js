@@ -4,6 +4,9 @@ import { saveShayari } from "@/lib/controllers/shayariController";
 import { automaticDeleteShayariService } from "@/lib/services/shayariService";
 import { serverError, success } from "@/lib/response";
 
+
+
+// cron job hatao
 export async function saveDailyShayari() {
   try {
     cron.schedule("0 0 * * *", async () => {
@@ -13,13 +16,11 @@ export async function saveDailyShayari() {
 
       console.log("data added successfully");
 
-      return success({
-        message: `${saveShayaries.count} shayaries added automatically`,
-      });
+      return true;
     });
   } catch (error) {
     console.log("error while adding data automatically: ", error.message);
-    return serverError({ error: error.message });
+    return false;
   }
 }
 
@@ -38,16 +39,15 @@ export async function deleteOldShayari() {
         `deleted ${deleteShayaries.count} shayaris older than 7 days`
       );
 
-      return success({
-        message: `${deleteShayaries.count} shayaries deleted automatically`,
-      });
+      return true;
+
     } catch (error) {
       console.error(
         "error while deleting old data automatically: ",
         error.message
       );
 
-      return serverError({ error: error.message });
+      return false;
     }
   });
 }

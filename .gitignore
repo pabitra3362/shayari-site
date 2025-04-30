@@ -34,10 +34,10 @@ yarn-error.log*
 .env*
 
 
-# Prisma
-prisma/dev.db
-prisma/dev.db-journal
-lib/generated
+# # Prisma
+# prisma/dev.db
+# prisma/dev.db-journal
+# lib/generated
 
 # vercel
 .vercel
