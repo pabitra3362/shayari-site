@@ -24,7 +24,7 @@ const ShayariCard = ({ shayari }) => {
       <BookmarkButton shayariId={`${shayari.id}`} />
       </div>
       <h3 className="text-xl font-semibold text-pink-600">{shayari.title}</h3>
-      <p className="text-gray-700 mt-2 line-clamp-3">{shayari.content}</p>
+      <p className="text-gray-700 whitespace-pre-line mt-2 line-clamp-3">{shayari.content}</p>
 
       <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
         <span>

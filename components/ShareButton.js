@@ -3,7 +3,7 @@ import { toPng } from 'html-to-image';
 
 export default function ShareButton({ shayariId }) {
   const handleShare = () => {
-    const element = document.getElementById(`shayari-${shayariId}`);
+    const element = document.getElementById(`${shayariId}`);
     toPng(element).then((dataUrl) => {
       const link = document.createElement('a');
       link.download = `shayari-${shayariId}.png`;
