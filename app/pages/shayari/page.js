@@ -14,6 +14,7 @@ async function getShayaris() {
   }
 }
 
+
 export default async function ShayariPage() {
   const shayaris = await getShayaris();
 
