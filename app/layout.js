@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
+import SessionWrapper from "@/components/SessionWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,11 +36,13 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
+          <SessionWrapper>
           <Navbar />
-          {children}
+            {children}
           <Toaster />
           <Analytics />
           <Footer />
+          </SessionWrapper>
         </ThemeProvider>
       </body>
     </html>

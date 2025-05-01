@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { ModeToggle } from "./ToogleModes";
 import { Input } from "./ui/input";
@@ -6,8 +7,11 @@ import Link from "next/link";
 import MyDrawer from "./Drawer";
 import logo from "../public/assets/logo.png";
 import Image from "next/image";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
+
+  const {data: session} = useSession();
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 bg-[#eea679b0] py-2">
       <div className="left flex items-center gap-x-2">
@@ -44,6 +48,19 @@ const Navbar = () => {
           <li>
             <ModeToggle />
           </li>
+          {
+            session ? (
+              <button
+              onClick={()=> signOut()}
+              className="border border-foreground rounded bg-transparent px-3 py-1 cursor-pointer">Logout</button>
+            ) : (
+              <li>
+            <Link href="/pages/login" className="cursor-pointer">
+            <button className="border border-foreground rounded bg-transparent px-3 py-1 cursor-pointer">Login</button>
+            </Link>
+          </li>
+            )
+          }
           
         </ul>
       </div>
