@@ -2,6 +2,8 @@
 import { useState } from "react";
 import ShayariCard from "./ShayariCard";
 import { toast } from "sonner";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const categories = [
   "All", "Love", "Birthday", "Breakup", "Cute", "Diwali", "Dosti", "Friendship",
@@ -37,7 +39,7 @@ export default function ShayariClientList({ shayaris }) {
           placeholder="Search Shayari..."
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
-          className="w-full sm:w-2/3 md:w-1/2 px-4 py-2 border border-foreground focus:border-none rounded-full  focus:outline-none focus:ring-2 focus:ring-[#eea679b0] transition-all duration-300"
+          className="w-full sm:w-2/3 md:w-1/2 px-4 py-2 border border-foreground focus:border-none rounded-full focus:outline-none focus:ring-2 focus:ring-[#eea679b0] transition-all duration-300"
         />
       </div>
 
@@ -60,10 +62,27 @@ export default function ShayariClientList({ shayaris }) {
       {filtered.length === 0 ? (
         <p className="text-center text-gray-500">Koi Shayari nahi mili, sorry 💔</p>
       ) : (
-        <div className="grid sm:grid-cols-2 gap-6">
-          {filtered.map((shayari, index) => (
-            <ShayariCard key={shayari._id || index} shayari={shayari} onCopy={handleCopybtn} />
-          ))}
+        <div className="min-h-screen w-full">
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                itemCount={filtered.length}
+                itemSize={220} // Adjust based on card height
+                height={height}
+                width={width}
+              >
+                {({ index, style }) => (
+                  <div style={style} className="px-2">
+                    <ShayariCard
+                      key={filtered[index].id || index}
+                      shayari={filtered[index]}
+                      onCopy={handleCopybtn}
+                    />
+                  </div>
+                )}
+              </List>
+            )}
+          </AutoSizer>
         </div>
       )}
     </>

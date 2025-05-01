@@ -6,17 +6,36 @@ import React from "react";
 import Link from "next/link";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { useState, useMemo } from "react";
-import ALL_SHAYARIES from "@/lib/DummyData";
+import Loader from "@/components/Loder";
 
 
 const PAGE_SIZE = 4; // Number of items to load each time
 
 const Page = () => {
   const [page, setPage] = useState(1);
+  const [shayaries, setShayaries] = useState([]);
+  const [loader, setLoader] = useState(true);
+
+  // fetch top shayaries
+  useState(()=>{
+
+    async function getTopShayaries(){
+      
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getTopShayaries`, {
+      cache: "no-store", // always fresh data (or use ISR with revalidate)
+    });
+
+    const data = await result.json();
+    setShayaries(data.shayaries)
+    setLoader(false)
+    }
+
+    getTopShayaries();
+  },[])
   
   // Calculate visible shayaris based on current page
   const visibleShayaries = useMemo(() => {
-    return ALL_SHAYARIES.slice(0, page * PAGE_SIZE);
+    return shayaries.slice(0, page * PAGE_SIZE);
   }, [page]);
 
   const loadMore = () => {
@@ -31,13 +50,24 @@ const Page = () => {
       <div className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="">Today's Top Shayaris:</h1>
         <hr className="bg-foreground my-5" />
+
         
-        {visibleShayaries.map((shayari, index) => (
-          <ShayariCard key={`${shayari.title}-${index}`} shayari={shayari} />
-        ))}
+        {
+          loader ? (
+            <div className="w-full flex justify-center items-center h-96">
+               <Loader />
+            </div>
+          ) : (
+            <div>
+            {visibleShayaries.map((shayari, index) => (
+              <ShayariCard key={`${shayari.title}-${index}`} shayari={shayari} />
+            ))}
+            </div>
+          )
+        }
 
         {/* Only show InfiniteScroll if there are more items to load */}
-        {visibleShayaries.length < ALL_SHAYARIES.length && (
+        {visibleShayaries.length < shayaries.length && (
           <InfiniteScroll loadMore={loadMore} />
         )}
 
