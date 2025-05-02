@@ -2,7 +2,7 @@
 import Hero from "@/components/Hero";
 import RollingGallery from "@/components/RollingGallery";
 import ShayariCard from "@/components/ShayariCard";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { useState, useMemo } from "react";
@@ -17,17 +17,22 @@ const Page = () => {
   const [loader, setLoader] = useState(true);
 
   // fetch top shayaries
-  useState(()=>{
+  useEffect(()=>{
 
     async function getTopShayaries(){
       
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getTopShayaries`, {
-      cache: "no-store", // always fresh data (or use ISR with revalidate)
-    });
-
-    const data = await result.json();
-    setShayaries(data.shayaries)
-    setLoader(false)
+    try {
+      const result = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getTopShayaries`, {
+        cache: "no-store", // always fresh data (or use ISR with revalidate)
+      });
+  
+      const data = await result.json();
+      setShayaries(data.shayaries)
+      setLoader(false)
+    } catch (error) {
+      console.error("Failed to fetch shayaries: ", error.message);
+      setLoader(false);
+    }
     }
 
     getTopShayaries();
