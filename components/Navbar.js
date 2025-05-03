@@ -1,5 +1,6 @@
 "use client"
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { ModeToggle } from "./ToogleModes";
 import { Input } from "./ui/input";
 import Categories from "./Categories";
@@ -8,10 +9,48 @@ import MyDrawer from "./Drawer";
 import logo from "../public/assets/logo.png";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { logoutUserThunk } from "@/features/user/userAuthSlice";
+import { userProfile } from "@/services/userService";
+import { toast } from "sonner";
 
 const Navbar = () => {
 
+  const [user, setUser] = useState(null);
   const {data: session} = useSession();
+  
+  const dispatch = useDispatch();
+  
+
+  useEffect(()=>{
+    async function fetchProfile(){
+      try {
+        const data = await userProfile();
+
+        console.log("data: ",data);
+        
+        
+        setUser(data.user);
+      } catch (error) {
+        toast.error((error.response?.data?.message || error.message),{
+          position: "top-right"
+        });
+      }
+    }
+
+    fetchProfile();
+    
+  },[])
+
+  
+
+
+  const handleLogout = async () => {
+    dispatch(logoutUserThunk())
+    signOut()
+    setUser(null);
+  }
+
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 bg-[#eea679b0] py-2">
       <div className="left flex items-center gap-x-2">
@@ -49,9 +88,9 @@ const Navbar = () => {
             <ModeToggle />
           </li>
           {
-            session ? (
+            (session || user) ? (
               <button
-              onClick={()=> signOut()}
+              onClick={handleLogout}
               className="border border-foreground rounded bg-transparent px-3 py-1 cursor-pointer">Logout</button>
             ) : (
               <li>

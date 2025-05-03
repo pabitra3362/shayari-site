@@ -39,4 +39,11 @@ model shayari {
 }
 
 
+model blackListedToken {
+  token String @id
+  createdAt DateTime @default(now())
+
+}
+
+
 

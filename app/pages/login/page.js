@@ -10,10 +10,27 @@ import Image from "next/image";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserThunk } from '@/features/user/userAuthSlice';
+
+
 
 export default function LoginForm() {
   const { data: session } = useSession();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { error } = useSelector(state => state.user);
+  
+
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors,
+      isSubmitting
+    }
+  } = useForm();
 
   useEffect(()=>{
     
@@ -21,6 +38,19 @@ export default function LoginForm() {
     router.push("/")
   }
   },[session])
+
+
+  const onSubmit = async (data) => {
+    dispatch(loginUserThunk({
+      email: data.email,
+      password: data.password
+    }))
+    .then(router.push("/"))
+    .catch(err => console.log(err.message))
+    
+    
+  }
+  
   
 
   return (
@@ -31,7 +61,7 @@ export default function LoginForm() {
     >
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -45,6 +75,7 @@ export default function LoginForm() {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  {...register("email")}
                   required
                 />
               </div>
@@ -58,11 +89,13 @@ export default function LoginForm() {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required {...register('password')}/>
               </div>
-              <Button type="submit" className="w-full cursor-pointer">
+              <Button disabled={isSubmitting} type="submit" className="w-full cursor-pointer">
                 Login
               </Button>
+
+              {error && <p className="text-red-500">{error}</p>}
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
