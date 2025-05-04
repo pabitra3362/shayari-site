@@ -46,11 +46,15 @@ export async function userRegister({username,email,password=""}){
 
 
 export async function forgetPassword({email}){
-    return null;
+    const response = await axios.post(`${baseUrl}/api/user/forgetPassword`,{email});
+
+    return response.data;
 }
 
 
 
-export async function setNewPassword({id, role, password}){
-    return null;
+export async function setNewPassword({id, password}){
+    const response = await axios.put(`${baseUrl}/api/user/forgetPassword`,{id, password});
+
+    return response.data;
 }

@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import Logo from "@/public/assets/logo.png";
 import { useForm } from "react-hook-form";
 import { Spinner } from "flowbite-react";
+import { forgetPassword } from "@/services/userService";
+import { toast } from "sonner";
 
 const ForgetPassword = () => {
   const router = useRouter();
@@ -16,11 +18,14 @@ const ForgetPassword = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const email = watch("email");
 
 
+  // timer for 30 second cooldown
   useEffect(() => {
     let countdown;
     if (timer > 0) {
@@ -35,11 +40,12 @@ const ForgetPassword = () => {
     setWhileSubmitting(true)
 
     if (timer > 0) return;
+
     try {
-
-
-        //add logic
-        console.log(data);
+        const result = await forgetPassword({email: email});
+        toast.success(result.message,{
+          position: 'top-right'
+        });
         setSuccess(true);
         setWhileSubmitting(false);
         setTimer(30)
