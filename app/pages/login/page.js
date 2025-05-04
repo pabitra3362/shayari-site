@@ -9,10 +9,11 @@ import poetry from "@/public/assets/hero.png";
 import Image from "next/image";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk } from '@/features/user/userAuthSlice';
+import Link from "next/link";
 
 
 
@@ -20,8 +21,7 @@ export default function LoginForm() {
   const { data: session } = useSession();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { error } = useSelector(state => state.user);
-  
+  const [error, setError] = useState(null);
 
   const {
     register,
@@ -41,15 +41,23 @@ export default function LoginForm() {
 
 
   const onSubmit = async (data) => {
-    dispatch(loginUserThunk({
+     dispatch(loginUserThunk({
       email: data.email,
       password: data.password
     }))
-    .then(router.push("/"))
-    .catch(err => console.log(err.message))
-    
-    
+    .then((data)=>{
+      if(data.payload.status === 200){
+        window.location.href="/"
+      }
+
+      setError(data.payload.message)
+      
+    })
+
   }
+
+
+  
   
   
 
@@ -82,16 +90,16 @@ export default function LoginForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_BASEURL}/pages/forgotPassword`}
                     className="ml-auto text-sm underline-offset-2 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
                 <Input id="password" type="password" required {...register('password')}/>
               </div>
-              <Button disabled={isSubmitting} type="submit" className="w-full cursor-pointer">
+              <Button disabled={isSubmitting} type="submit" className={`w-full ${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>
                 Login
               </Button>
 

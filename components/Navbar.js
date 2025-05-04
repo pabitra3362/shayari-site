@@ -10,9 +10,10 @@ import logo from "../public/assets/logo.png";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { logoutUserThunk } from "@/features/user/userAuthSlice";
+import { logoutUserThunk, saveUser } from "@/features/user/userAuthSlice";
 import { userProfile } from "@/services/userService";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
 
@@ -27,9 +28,8 @@ const Navbar = () => {
       try {
         const data = await userProfile();
 
-        console.log("data: ",data);
         
-        
+        dispatch(saveUser({user: data.user}))
         setUser(data.user);
       } catch (error) {
         toast.error((error.response?.data?.message || error.message),{
@@ -89,13 +89,13 @@ const Navbar = () => {
           </li>
           {
             (session || user) ? (
-              <button
+              <Button
               onClick={handleLogout}
-              className="border border-foreground rounded bg-transparent px-3 py-1 cursor-pointer">Logout</button>
+              className="w-fit px-3 py-1 cursor-pointer">Logout</Button>
             ) : (
               <li>
             <Link href="/pages/login" className="cursor-pointer">
-            <button className="border border-foreground rounded bg-transparent px-3 py-1 cursor-pointer">Login</button>
+            <Button className="w-fit px-3 py-1 cursor-pointer">Login</Button>
             </Link>
           </li>
             )

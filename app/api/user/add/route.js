@@ -1,4 +1,5 @@
 import { serverError, success } from '@/lib/response';
+import { userRegisterEmailService } from '@/lib/services/emailService';
 import { generateToken, safeUser } from '@/lib/services/jwtService';
 import { addUserService } from '@/lib/services/userService';
 import bcrypt from 'bcrypt';
@@ -7,6 +8,7 @@ import { cookies } from 'next/headers';
 
 export async function POST(request){
     const {username, email, password, role} = await request.json();
+    const cookie = await cookies();
 
 
     try {
@@ -20,9 +22,11 @@ export async function POST(request){
             role
         });
 
+        await userRegisterEmailService({email: user.email, username: user.username })
+
         const token = generateToken({userId: user.id, role: user.role})
 
-        (await cookies()).set("token",token,{
+        cookie.set("token",token,{
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',

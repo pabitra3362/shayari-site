@@ -9,10 +9,10 @@ import { cookies } from "next/headers";
 
 export async function POST(request){
     const { email, password } = await request.json();
+    const cookie = await cookies();
 
     try {
         const user = await userLoginService({ email });
-        console.log("user: ",user);
         
 
         const isMatch = await comparePassword({
@@ -24,7 +24,7 @@ export async function POST(request){
         
         const token = generateToken({userId: user.id, role: user.role})
 
-        (await cookies()).set("token",token,{
+        cookie.set("token",token,{
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: 'strict',

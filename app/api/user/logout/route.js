@@ -4,13 +4,15 @@ import { serverError, success } from "@/lib/response";
 import { cookies } from "next/headers";
 
 export async function GET(req) {
+
+  const cookie = await cookies();
   try {
 
     const user = await verifyToken(req);
     
     const token = req.headers.get("authorization")?.split(" ")[1] || (await cookies()).get("token")?.value;
 
-    (await cookies()).set("token","",{
+    cookie.set("token","",{
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: 'strict',

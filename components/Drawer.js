@@ -2,9 +2,13 @@
 
 import { Drawer, DrawerItems } from "flowbite-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModeToggle } from "./ToogleModes";
-import { Input } from "./ui/input";
+import { toast } from "sonner";
+import { userProfile } from "@/services/userService";
+import { logoutUserThunk, saveUser } from "@/features/user/userAuthSlice";
+import { signOut, useSession } from "next-auth/react";
+import { Button } from "./ui/button";
 
 // 🧁 Icons
 import { FaHome, FaSearch, FaPenFancy, FaRegPlayCircle, FaRegStar } from "react-icons/fa";
@@ -13,6 +17,7 @@ import { BiCategory } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { SiPoetry } from "react-icons/si";
+import { useDispatch } from "react-redux";
 
 const categoryArray = [
   { title: "Love", link: "/love", color: "text-red-400" },
@@ -34,9 +39,39 @@ const categoryArray = [
 
 export default function MyDrawer() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const {data: session } = useSession()
+  const dispatch = useDispatch();
 
   const handleClose = () => setIsOpen(false);
+
+  useEffect(()=>{
+      async function fetchProfile(){
+        try {
+          const data = await userProfile();
+  
+          
+          dispatch(saveUser({user: data.user}))
+          setUser(data.user);
+        } catch (error) {
+          toast.error((error.response?.data?.message || error.message),{
+            position: "top-right"
+          });
+        }
+      }
+  
+      fetchProfile();
+      
+    },[])
+
+
+    const handleLogout = async () => {
+        dispatch(logoutUserThunk())
+        signOut()
+        setUser(null);
+        handleClose();
+      }
 
 
   
@@ -141,6 +176,21 @@ export default function MyDrawer() {
                 <FaPenFancy /> Submit Shayari
               </Link>
             </li>
+
+
+            {
+            (session || user) ? (
+              <Button
+              onClick={handleLogout}
+              className="w-full py-1 cursor-pointer">Logout</Button>
+            ) : (
+              <li>
+            <Link onClick={handleClose} href="/pages/login" className="cursor-pointer">
+            <Button className="w-full py-1 cursor-pointer">Login</Button>
+            </Link>
+          </li>
+            )
+          }
 
             
           </ul>

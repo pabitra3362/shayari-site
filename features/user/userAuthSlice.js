@@ -6,7 +6,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
-    token: null,
     loading: false,
     error: null
 }
@@ -16,7 +15,6 @@ export const loginUserThunk = createAsyncThunk(
     async ({email, password}, {rejectWithValue}) =>{
         try {
             const response = await userLogin({email, password});
-            console.log("login: ",response);
             
             
             return response;
@@ -44,7 +42,11 @@ export const logoutUserThunk = createAsyncThunk(
 const userAuthSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        saveUser(state, action){
+            state.user = action.payload.user;
+        }
+    },
     extraReducers: builder => {
         builder
 
@@ -55,7 +57,6 @@ const userAuthSlice = createSlice({
             })
             .addCase(loginUserThunk.fulfilled, (state, action) =>{
                 state.user= action.payload.user;
-                state.token = action.payload.token;
                 state.loading= false;
                 state.error = null;
             })
@@ -72,7 +73,6 @@ const userAuthSlice = createSlice({
             .addCase(logoutUserThunk.fulfilled, (state)=>{
                 state.loading = false;
                 state.user=null;
-                state.token = null;
                 
             })
             .addCase(logoutUserThunk.rejected, (state, action)=>{
@@ -82,6 +82,6 @@ const userAuthSlice = createSlice({
     }
 });
 
-
+export const { saveUser } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
