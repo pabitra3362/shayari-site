@@ -16,7 +16,7 @@ const ShayariCard = ({ shayari }) => {
   };
   return (
     <div
-      id={`${shayari.id}`}
+      id={shayari.id}
       className="rounded-xl shadow-md p-4 bg-white hover:shadow-lg transition my-3"
     >
       <div className="flex justify-between items-center">
@@ -28,7 +28,7 @@ const ShayariCard = ({ shayari }) => {
 
       <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
         <span>
-          <LikeButton shayariId={`${shayari.id}`} />
+          <LikeButton shayariId={shayari.id} likes={shayari.likes} isLiked={shayari.isLiked} />
         </span>
         <div className="flex items-center gap-3">
         <button

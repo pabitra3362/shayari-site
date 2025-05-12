@@ -4,9 +4,12 @@ import { getALLShayariService } from "@/lib/services/shayariService";
 
 
 
-export async function GET(){
+export async function POST(req){
+    const { userId } = await req.json() || null;
+    console.log(userId);
+    
     try {
-        const shayaries = await getALLShayariService();
+        const shayaries = await getALLShayariService({userId});
 
         if(shayaries.length === 0) throw new Error("No Shayari found");
 

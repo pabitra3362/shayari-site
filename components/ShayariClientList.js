@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShayariCard from "./ShayariCard";
 import { toast } from "sonner";
 import { FixedSizeList as List } from "react-window";
@@ -13,7 +13,9 @@ const categories = [
 export default function ShayariClientList({ shayaris }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchText, setSearchText] = useState("");
+  
 
+  
   const filtered = shayaris.filter(item => {
     const matchCategory = activeCategory === "All" || item.category === activeCategory;
     const matchSearch =
@@ -22,6 +24,7 @@ export default function ShayariClientList({ shayaris }) {
       item.category.toLowerCase().includes(searchText.toLowerCase());
     return matchCategory && matchSearch;
   });
+
 
   const handleCopybtn = (content) => {
     navigator.clipboard.writeText(content)
@@ -59,14 +62,14 @@ export default function ShayariClientList({ shayaris }) {
       </div>
 
       {/* Shayari Cards */}
-      {filtered.length === 0 ? (
+      {filtered?.length === 0 ? (
         <p className="text-center text-gray-500">Koi Shayari nahi mili, sorry 💔</p>
       ) : (
         <div className="min-h-screen w-full">
           <AutoSizer>
             {({ height, width }) => (
               <List
-                itemCount={filtered.length}
+                itemCount={filtered?.length}
                 itemSize={220} // Adjust based on card height
                 height={height}
                 width={width}

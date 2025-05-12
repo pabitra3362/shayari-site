@@ -30,8 +30,6 @@ export async function userProfile(){
         withCredentials: true,
     })
 
-    
-
     return response.data;
 }
 
