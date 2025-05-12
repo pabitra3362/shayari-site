@@ -11,7 +11,7 @@ import Loader from "@/components/Loder";
 
 const PAGE_SIZE = 4; // Number of items to load each time
 
-const Page = () => {
+const Home = () => {
   const [page, setPage] = useState(1);
   const [shayaries, setShayaries] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -72,7 +72,7 @@ const Page = () => {
         }
 
         {/* Only show InfiniteScroll if there are more items to load */}
-        {visibleShayaries.length < shayaries.length && (
+        {visibleShayaries.length < shayaries?.length && (
           <InfiniteScroll loadMore={loadMore} />
         )}
 
@@ -86,4 +86,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Home;

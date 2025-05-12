@@ -1,6 +1,6 @@
 
 
-import { userLogin, userLogout } from "@/services/userService";
+import { userLogin, userLogout, userRegister } from "@/services/userService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -37,6 +37,19 @@ export const logoutUserThunk = createAsyncThunk(
         }
     }
 );
+
+export const userRegisterThunk = createAsyncThunk(
+    "user/userRegister",
+    async ({username, email, password}, {rejectWithValue}) => {
+        try {
+            const response = await userRegister({username, email, password});
+
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
 
 
 const userAuthSlice = createSlice({
@@ -77,6 +90,21 @@ const userAuthSlice = createSlice({
             })
             .addCase(logoutUserThunk.rejected, (state, action)=>{
                 state.loading=false;
+                state.error = action.payload;
+            })
+
+            // user register cases
+            .addCase(userRegisterThunk.pending, (state) => {
+                state.loading=true;
+                state.error=null;
+            })
+            .addCase(userRegisterThunk.fulfilled, (state, action) =>{
+                state.user= action.payload.user;
+                state.loading= false;
+                state.error = null;
+            })
+            .addCase(userRegisterThunk.rejected, (state, action)=>{
+                state.loading = false;
                 state.error = action.payload;
             })
     }

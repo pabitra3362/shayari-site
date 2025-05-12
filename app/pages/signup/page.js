@@ -12,12 +12,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserThunk } from '@/features/user/userAuthSlice';
+import { loginUserThunk, userRegisterThunk } from '@/features/user/userAuthSlice';
 import Link from "next/link";
 
 
 
-export default function LoginForm() {
+export default function Signup() {
   const { data: session } = useSession();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -27,11 +27,14 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: {
       errors,
       isSubmitting
     }
   } = useForm();
+
+  let password = watch("password");
 
   useEffect(()=>{
     
@@ -42,9 +45,10 @@ export default function LoginForm() {
 
 
   const onSubmit = async (data) => {
-     dispatch(loginUserThunk({
+     dispatch(userRegisterThunk({
       email: data.email,
-      password: data.password
+      password: data.password,
+      username: data.name
     }))
     .then((data)=>{
       if(data.payload.status === 200){
@@ -73,10 +77,20 @@ export default function LoginForm() {
           <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">Welcome to shayarspot</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your shayarspot account
+                  Sign up to create your account
                 </p>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="abc"
+                  {...register("name")}
+                  required
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -91,14 +105,20 @@ export default function LoginForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link
-                    href={`${process.env.NEXT_PUBLIC_BASEURL}/pages/forgotPassword`}
-                    className="ml-auto text-sm underline-offset-2 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
+                 
                 </div>
                 <Input id="password" type="password" required {...register('password')}/>
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="cnfPassword">Confirm Password</Label>
+                  
+                </div>
+                <Input id="cnfPassword" type="password" required {...register('cnfPassword',{
+                  validate: value => value === password || "Passwords do not match"
+                })}/>
+
+                {errors.cnfPassword && <p className="text-red-500">{errors.cnfPassword.message}</p>}
               </div>
               <Button disabled={isSubmitting} type="submit" className={`w-full ${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>
                 Login
@@ -140,10 +160,9 @@ export default function LoginForm() {
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link
-                href={`${process.env.NEXT_PUBLIC_BASEURL}/pages/signup`}
-                className="underline underline-offset-4"
-                >Sign up</Link>
+                <a href="#" className="underline underline-offset-4">
+                  Sign up
+                </a>
               </div>
             </div>
           </form>
