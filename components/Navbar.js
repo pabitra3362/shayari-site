@@ -22,15 +22,14 @@ const Navbar = () => {
   
   const dispatch = useDispatch();
   
-
+  
   useEffect(()=>{
     async function fetchProfile(){
       try {
-        const data = await userProfile();
-
+        const response = await userProfile();
         
-        dispatch(saveUser({user: data.user}))
-        setUser(data.user);
+        dispatch(saveUser({user: response?.user || session?.user}))
+        setUser(response?.user || session?.user);
       } catch (error) {
         toast.error((error.response?.data?.message || error.message),{
           position: "top-right"
@@ -40,14 +39,17 @@ const Navbar = () => {
 
     fetchProfile();
     
-  },[])
+  },[session])
 
   
 
 
   const handleLogout = async () => {
-    dispatch(logoutUserThunk())
-    signOut()
+    if(session){
+      signOut().then(dispatch(logoutUserThunk()))
+    } else {
+      dispatch(logoutUserThunk())
+    }
     setUser(null);
   }
 

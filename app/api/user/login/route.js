@@ -26,15 +26,15 @@ export async function POST(request){
 
         cookie.set("token",token,{
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production" ? true : false,
             sameSite: 'strict',
             path: "/",
-            maxAge: 24 * 24 * 60 * 7,
+            maxAge: 7 * 24 * 60 * 60,
         })
 
         const finalUser = safeUser(user);
 
-        return success({message:"loggedin successfully", successf: true, user: finalUser, token})
+        return success({message:"loggedin successfully", success: true, user: finalUser, token})
     } catch (error) {
         console.log(error.message);
         

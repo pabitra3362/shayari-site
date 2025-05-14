@@ -1,33 +1,43 @@
 // app/shayari/page.js
-import ClientSideFetcher from "@/components/ClientSideFetcher";
+"use client"
 import ShayariClientList from "@/components/ShayariClientList";
 import { getAllShayari } from "@/services/shayariService";
-import { userProfile } from "@/services/userService";
-
-// async function getShayaris() {
-
-  
-  
-//   try {
-    
-//     const res = await userProfile();
-//     console.log(res);
-//     const data = await getAllShayari(res?.user?.id)
-//     return data?.shayaries || [];
-//   } catch (error) {
-//     console.error("Fetch error:", error.message);
-//     return [];
-//   }
-// }
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import Loader from "@/components/Loder";
 
 
-export default async function ShayariPage() {
-  // const shayaris = await getShayaris();
+export default function ShayariPage() {
+
+  const [shayaries, setShayaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useSelector(state => state.user);
+
+  useEffect(()=>{
+    async function fetchShayari(){
+      try {
+        const response = await getAllShayari({userId: user?.id});
+
+        setShayaries(response.shayaries);
+      } catch (error) {
+        toast.error(error.response?.data?.message || error.message,{
+          position: "top-right"
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchShayari();
+  },[user])
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-[#eea679b0] mb-6 text-center">Explore Shayaris</h1>
-      <ClientSideFetcher fetchFunction={getAllShayari} isShayari={true} />
+      {
+        loading ? <div className="w-fit mx-auto"><Loader /></div> : <div className="max-w-4xl mx-auto"><ShayariClientList shayaries={shayaries} /></div>
+      }
     </div>
   );
 }

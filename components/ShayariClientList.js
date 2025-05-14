@@ -10,13 +10,13 @@ const categories = [
   "Funny", "Good Night", "Miss You", "Romantic", "Sad", "Sorry", "Anniversary",
 ];
 
-export default function ShayariClientList({ shayaris }) {
+export default function ShayariClientList({ shayaries }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchText, setSearchText] = useState("");
   
 
   
-  const filtered = shayaris.filter(item => {
+  const filtered = shayaries.filter(item => {
     const matchCategory = activeCategory === "All" || item.category === activeCategory;
     const matchSearch =
       item.title.toLowerCase().includes(searchText.toLowerCase()) ||

@@ -5,14 +5,18 @@ import React, {useState, useEffect} from 'react';
 import { toast } from 'sonner';
 
 const LikeButton = ({ shayariId, likes, isLiked }) => {
+  const [like, setLike] = useState(likes);
+  const [isLike, setIsLike] = useState(isLiked);
   
-// console.log(isLiked);
-
   const handleLike =  async (params) => {
     try {
       const response = await likeShayari({shayariId})
 
-      console.log(response);
+      if(response.status === 200){
+        isLike ? setLike(like-1) : setLike(like+1);
+        setIsLike(!isLike);
+      }
+
       
     } catch (error) {
       toast.error(error.response?.data?.error || error.message);
@@ -22,7 +26,7 @@ const LikeButton = ({ shayariId, likes, isLiked }) => {
 
   return (
     <button onClick={handleLike} className=" cursor-pointer flex items-center gap-1 text-sm">
-      ❤️ {likes} {isLiked ? "liked" : "likes" }
+      ❤️ {like} {isLike ? "liked" : "likes" }
     </button>
   );
 };

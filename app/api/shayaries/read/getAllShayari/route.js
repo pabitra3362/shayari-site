@@ -5,8 +5,7 @@ import { getALLShayariService } from "@/lib/services/shayariService";
 
 
 export async function POST(req){
-    const { userId } = await req.json() || null;
-    console.log(userId);
+    const { userId } = await req.json();
     
     try {
         const shayaries = await getALLShayariService({userId});

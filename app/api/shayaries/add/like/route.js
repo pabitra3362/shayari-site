@@ -4,13 +4,13 @@ import { likeShayariService } from "@/lib/services/shayariService";
 
 
 
-export async function POST(request){
+export async function POST(req){
 
-    const {shayariId} = await request.json();
+    const {shayariId} = await req.json();
     
     try {
-
-        const user = await verifyToken(request);
+        
+        const user = await verifyToken(req);
 
         const result = await likeShayariService({ userId: user?.id, shayariId });
 
