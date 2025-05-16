@@ -1,0 +1,12 @@
+{
+    "crons": [
+        {
+            "path": "/app/api/shayaries/add/automatic",
+            "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/app/api/shayaries/delete/automatic",
+            "schedule": "0 0 * * *"
+        }
+    ]
+}
