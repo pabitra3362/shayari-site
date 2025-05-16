@@ -1,20 +1,35 @@
 // app/shayari/[category]/page.jsx
+"use client"
 import { getShayariByCategoryService } from '@/services/shayariService';
 import ShayariList from '@/components/ShayariList';
 import { FaHeartBroken } from 'react-icons/fa';
+import { useEffect, useState, use } from 'react';
+import { toast } from 'sonner';
+import Loader from '@/components/Loder';
+import { useSelector } from 'react-redux';
 
-const ShayariCategory = async ({ params }) => {
-  const { category } = params;
-  let shayaries = [];
+const ShayariCategory = ({ params }) => {
+  const { category } = use(params);
+  const [shayaries, setShayaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useSelector(state => state.user);
 
-  try {
-    const data = await getShayariByCategoryService({ category });
-    if (data.status === 200) {
-      shayaries = data.shayaries;
+ useEffect(() => {
+  async function fetchShayari() {
+    try {
+      const response = await getShayariByCategoryService({category, userId: user?.id});
+      setShayaries(response.shayaries);
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message, {
+        position: "top-right",
+      });
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error('Error fetching shayari:', error);
   }
+
+  fetchShayari();
+ },[user])
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
@@ -22,15 +37,7 @@ const ShayariCategory = async ({ params }) => {
         ❤️ {category.charAt(0).toUpperCase() + category.slice(1)} Shayariyaan ❤️
       </h1>
 
-      {shayaries.length > 0 ? (
-        <ShayariList shayaries={shayaries} />
-      ) : (
-        <div className="flex flex-col items-center justify-center text-center py-16">
-          <FaHeartBroken className="text-pink-400 text-5xl mb-4" />
-          <p className="text-lg md:text-xl text-gray-500">Oops... koi shayari nahi mili 🥲</p>
-          <p className="text-sm text-gray-400 mt-2">Shayad kisi ne chhupa ke rakhi ho 💔</p>
-        </div>
-      )}
+      {loading ? <div className="h-screen flex justify-center items-center"><Loader /></div> : <div className="max-w-4xl mx-auto"><ShayariList shayaries={shayaries} /></div>}
     </div>
   );
 };

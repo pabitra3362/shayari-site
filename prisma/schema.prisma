@@ -23,7 +23,9 @@ model user {
   email String @unique
   password String
   role String @default("user")
-  bookmarkedShayaries shayari[]
+
+  likedShayaries shayari[] @relation("LikedByUsers")
+  bookmarkedShayaries shayari[] @relation("BookmarkedByUsers")
 }
 
 
@@ -34,8 +36,10 @@ model shayari {
   content String
   likes Int @default(0)
   createdAt DateTime @default(now())
-  likedByUsers user[]
 
+
+  likedByUsers user[] @relation("LikedByUsers")
+  bookmarkedByUsers user[] @relation("BookmarkedByUsers")
 }
 
 

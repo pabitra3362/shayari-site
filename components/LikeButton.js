@@ -1,8 +1,9 @@
 "use client";
 
 import { likeShayari } from '@/services/shayariService';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { toast } from 'sonner';
+import {motion} from 'framer-motion';
 
 const LikeButton = ({ shayariId, likes, isLiked }) => {
   const [like, setLike] = useState(likes);
@@ -25,9 +26,16 @@ const LikeButton = ({ shayariId, likes, isLiked }) => {
   
 
   return (
-    <button onClick={handleLike} className=" cursor-pointer flex items-center gap-1 text-sm">
+    <motion.button 
+    whileTap={{
+      scale: 0.9,
+      transition: {
+        duration: 0.1
+      }
+    }}
+    onClick={handleLike} className=" cursor-pointer flex items-center gap-1 text-sm">
       ❤️ {like} {isLike ? "liked" : "likes" }
-    </button>
+    </motion.button>
   );
 };
 

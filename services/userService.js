@@ -37,8 +37,8 @@ export async function userProfile(){
 
 // service for user registration
 export async function userRegister({username,email,password=""}){
-    const response = await axios.post(`${baseUrl}/api/user/add`,{username, email, password})
-
+    const response = await axios.post(`${baseUrl}/api/user/add`,{username, email, password: password})
+    
     return response.data;
 }
 

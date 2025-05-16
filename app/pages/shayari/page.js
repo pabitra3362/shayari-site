@@ -36,7 +36,7 @@ export default function ShayariPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-[#eea679b0] mb-6 text-center">Explore Shayaris</h1>
       {
-        loading ? <div className="w-fit mx-auto"><Loader /></div> : <div className="max-w-4xl mx-auto"><ShayariClientList shayaries={shayaries} /></div>
+        loading ? <div className="min-h-screen flex justify-center items-center"><Loader /></div> : <div className="max-w-4xl mx-auto"><ShayariClientList shayaries={shayaries} /></div>
       }
     </div>
   );

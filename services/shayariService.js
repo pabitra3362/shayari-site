@@ -1,10 +1,9 @@
 
-import api from '@/lib/axios';
 import axios from 'axios';
 
 
-export async function getShayariByCategoryService({category}){
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getShayariByCategory/${category}`,{
+export async function getShayariByCategoryService({category, userId=0}){
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getShayariByCategory/${category}/${userId}`,{
         withCredentials: true
     })
 
@@ -15,7 +14,6 @@ export async function getShayariByCategoryService({category}){
 
 export async function likeShayari({shayariId}){
 
-    // const token = cookies().get("token")?.value();
     const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/add/like`,{ shayariId },{
         withCredentials: true,
     });
@@ -27,7 +25,7 @@ export async function likeShayari({shayariId}){
 
 
 export async function getAllShayari({userId=0}){
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getAllShayari`,{userId},{
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getAllShayari`,{userId: userId},{
         withCredentials: true,
     })
 
@@ -38,11 +36,32 @@ export async function getAllShayari({userId=0}){
 
 // get top shayaries
 export async function getTopShayaries({userId=0}){
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getTopShayaries`,{userId},{
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getTopShayaries`,{userId: userId},{
         withCredentials: true,
     });
 
     
 
     return response.data;
+}
+
+// bookmark shayari
+export async function bookmarkShayari({shayariId}){
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/add/bookmark`,{ shayariId },{
+        withCredentials: true,
+    });
+
+    return response.data;
+}
+
+
+// get bookmarked shayaries
+export async function getBookmarkedShayaries(){
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/read/getBookmarkedShayaries`,{
+        withCredentials: true,
+    });
+
+
+    return response.data;
+
 }

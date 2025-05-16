@@ -7,11 +7,11 @@ export async function DELETE(){
 
     const currentDate = new Date();
 
-    const sevenDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 7));
+    const monthAgo = new Date(currentDate.setDate(currentDate.getDate() - 30));
 
   try {
     
-    const result = await automaticDeleteShayariService(sevenDaysAgo);
+    const result = await automaticDeleteShayariService(monthAgo);
 
     return success({message: `${result.count} Shayari deleted successfully`});
   } catch (error) {

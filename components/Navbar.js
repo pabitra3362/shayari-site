@@ -10,7 +10,7 @@ import logo from "../public/assets/logo.png";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { logoutUserThunk, saveUser } from "@/features/user/userAuthSlice";
+import { loginUserThunk, logoutUserThunk, saveUser } from "@/features/user/userAuthSlice";
 import { userProfile } from "@/services/userService";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
@@ -45,11 +45,13 @@ const Navbar = () => {
 
 
   const handleLogout = async () => {
-    if(session){
-      signOut().then(dispatch(logoutUserThunk()))
-    } else {
-      dispatch(logoutUserThunk())
-    }
+    // if(session){
+    //   signOut().then(dispatch(logoutUserThunk()))
+    // } else {
+    //   dispatch(logoutUserThunk())
+    // }
+    dispatch(logoutUserThunk())
+    signOut();
     setUser(null);
   }
 

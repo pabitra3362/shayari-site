@@ -6,32 +6,32 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { bookmarkShayari } from "@/services/shayariService";
+import { toast } from "sonner";
 
-const BookmarkButton = ({ shayariId }) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+const BookmarkButton = ({ shayariId, isBookmarked }) => {
+  const [isBookmark, setIsBookmark] = useState(isBookmarked);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("bookmarks");
+  const toggleBookmark = async () => {
+    try {
+      const response = await bookmarkShayari({shayariId})
 
-    setIsBookmarked(saved?.includes(shayariId) || false);
-  }, [shayariId]);
+      if(response.status === 200){
+        setIsBookmark(!isBookmark);
+      }
 
-  const toggleBookmark = () => {
-    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-    const newBookmarks = isBookmarked
-      ? bookmarks.filter((id) => id !== shayariId)
-      : [...bookmarks, shayariId];
-
-    localStorage.setItem("bookmarks", JSON.stringify(newBookmarks));
-    setIsBookmarked(!isBookmarked);
-  };
+      
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.message);
+    }
+  }
+  
 
   return (
     <TooltipProvider delayDuration={2000} >
       <Tooltip>
         <TooltipTrigger onClick={toggleBookmark} >
-            {isBookmarked ? "🔖" : "📑"}
+            {isBookmark ? "🔖" : "📑"}
         </TooltipTrigger>
         <TooltipContent className="bg-foreground">
           <p>Bookmark</p>

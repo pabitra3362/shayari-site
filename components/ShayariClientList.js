@@ -52,7 +52,7 @@ export default function ShayariClientList({ shayaries }) {
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-medium border 
+            className={`px-4 py-2 rounded-full text-sm font-medium border hover:cursor-pointer
               ${activeCategory === cat ? 'bg-[#eea679b0] text-white' : 'bg-white text-[#eea679b0] border-[#f6b287b0]'} 
               transition hover:scale-105`}
           >
@@ -70,7 +70,7 @@ export default function ShayariClientList({ shayaries }) {
             {({ height, width }) => (
               <List
                 itemCount={filtered?.length}
-                itemSize={220} // Adjust based on card height
+                itemSize={240} // Adjust based on card height
                 height={height}
                 width={width}
               >

@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk, saveUser, userRegisterThunk } from '@/features/user/userAuthSlice';
 import Link from "next/link";
+import Loader from "@/components/Loder";
 
 
 
@@ -51,6 +52,7 @@ export default function Signup() {
       username: data.name
     }))
     .then((data)=>{
+      
       if(data.payload.status === 200){
         window.location.href="/"
       }
@@ -116,9 +118,9 @@ export default function Signup() {
 
                 {errors.cnfPassword && <p className="text-red-500">{errors.cnfPassword.message}</p>}
               </div>
-              <Button disabled={isSubmitting} type="submit" className={`w-full ${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                Signup
-              </Button>
+              <button disabled={isSubmitting} type="submit" className={`w-full bg-foreground text-background py-1.5 rounded-md ${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                {isSubmitting ? <Loader /> : "Signup"}
+              </button>
 
               {error && <p className="text-red-500">{error}</p>}
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
@@ -155,10 +157,8 @@ export default function Signup() {
                 
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
-                  Sign up
-                </a>
+                Already have an account?{" "}
+                <Link href={`${process.env.NEXT_PUBLIC_BASEURL}/pages/login`} className="underline underline-offset-4">Login</Link>
               </div>
             </div>
           </form>

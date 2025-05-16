@@ -12,18 +12,15 @@ export async function POST(request){
 
 
     try {
-    
-        const hashedPassword = await bcrypt.hash(password, 10)
 
         const user = await addUserService({
             username,
             email,
-            password: hashedPassword,
+            password: password,
             role
         });
 
-        await userRegisterEmailService({email: user.email, username: user.username })
-
+        
         const token = generateToken({userId: user.id, role: user.role})
 
         cookie.set("token",token,{

@@ -15,7 +15,7 @@ const ShayariList = ({ shayaries }) => {
             className='flex flex-wrap'
             height={height}
             width={width}
-            itemSize={220}
+            itemSize={240}
             itemCount={shayaries.length}
           >
             {({ index, style }) => (
