@@ -18,7 +18,7 @@ const ShayariCard = ({ shayari }) => {
   return (
     <div
       id={shayari.id}
-      className="rounded-xl shadow-md p-4 bg-white hover:shadow-lg transition my-3"
+      className="rounded-xl shadow-md p-4 bg-white hover:shadow-lg h-56 flex flex-col justify-between transition my-3"
     >
       <div className="flex justify-between items-center">
       <div className="text-sm text-[#eca070b0] mb-2">{shayari.category}</div>

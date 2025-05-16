@@ -70,7 +70,7 @@ export default function ShayariClientList({ shayaries }) {
             {({ height, width }) => (
               <List
                 itemCount={filtered?.length}
-                itemSize={200} // Adjust based on card height
+                itemSize={250} // Adjust based on card height
                 height={height}
                 width={width}
               >
