@@ -23,6 +23,9 @@ export const metadata = {
   title: "ShayarSpot – Best Hindi Shayari Collection for Every Mood",
   description:
     "Read and share the most heart-touching Hindi Shayari on love, friendship, breakup, sadness, motivation, and more. ShayarSpot brings soul-stirring poetry and emotional quotes all in one place. Mobile-friendly & beautifully designed.",
+    icons: {
+      icon: "/assets/favicon.ico",
+    },
   keywords: [
     "Hindi Shayari",
     "ShayarSpot",
