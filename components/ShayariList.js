@@ -15,8 +15,8 @@ const ShayariList = ({ shayaries }) => {
             className='flex flex-wrap'
             height={height}
             width={width}
-            itemSize={240}
-            itemCount={shayaries.length}
+            itemSize={200}
+            itemCount={shayaries?.length}
           >
             {({ index, style }) => (
               <div style={style} className='px-2'>
