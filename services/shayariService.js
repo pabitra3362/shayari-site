@@ -65,3 +65,13 @@ export async function getBookmarkedShayaries(){
     return response.data;
 
 }
+
+
+// submit shayari service
+export async function submitShayari({shayaries}){
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASEURL}/api/shayaries/add/manually`,{shayaries},{
+        withCredentials: true
+    })
+
+    return response.data;
+}

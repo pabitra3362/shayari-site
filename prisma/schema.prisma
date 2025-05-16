@@ -35,6 +35,7 @@ model shayari {
   category String
   content String
   likes Int @default(0)
+  isValid Boolean @default(true)
   createdAt DateTime @default(now())
 
 
