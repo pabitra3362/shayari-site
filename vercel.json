@@ -1,11 +1,14 @@
 {
+    "version": 2,
     "crons": [
         {
-            "path": "/app/api/shayaries/add/automatic",
+            "path": "/api/shayaries/add/automatic",
+            "method": "POST",
             "schedule": "0 0 * * *"
         },
         {
-            "path": "/app/api/shayaries/delete/automatic",
+            "path": "/api/shayaries/delete/automatic",
+            "method": "DELETE",
             "schedule": "0 0 * * *"
         }
     ]
