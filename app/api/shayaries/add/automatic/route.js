@@ -3,7 +3,7 @@ import { serverError, success } from "@/lib/response";
 import { saveShayariService } from "@/lib/services/shayariService";
 
 
-export async function POST(){
+export async function GET(){
 
     try {
         const shayaries = await generateShayari();

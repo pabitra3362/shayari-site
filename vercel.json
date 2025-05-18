@@ -3,12 +3,10 @@
     "crons": [
         {
             "path": "/api/shayaries/add/automatic",
-            "method": "POST",
             "schedule": "0 0 * * *"
         },
         {
             "path": "/api/shayaries/delete/automatic",
-            "method": "DELETE",
             "schedule": "0 0 * * *"
         }
     ]

@@ -3,7 +3,7 @@ import { automaticDeleteShayariService } from "@/lib/services/shayariService";
 
 
 
-export async function DELETE(){
+export async function GET(){
 
     const currentDate = new Date();
 
