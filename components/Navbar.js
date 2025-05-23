@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { ModeToggle } from "./ToogleModes";
@@ -10,50 +10,45 @@ import logo from "../public/assets/logo.png";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { loginUserThunk, logoutUserThunk, saveUser } from "@/features/user/userAuthSlice";
+import {
+  loginUserThunk,
+  logoutUserThunk,
+  saveUser,
+} from "@/features/user/userAuthSlice";
 import { userProfile } from "@/services/userService";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 const Navbar = () => {
-
   const [user, setUser] = useState(null);
-  const {data: session} = useSession();
-  
+  const { data: session } = useSession();
+
   const dispatch = useDispatch();
-  
-  
-  useEffect(()=>{
-    async function fetchProfile(){
+
+  useEffect(() => {
+    async function fetchProfile() {
       try {
         const response = await userProfile();
-        
-        dispatch(saveUser({user: response?.user || session?.user}))
+
+        dispatch(saveUser({ user: response?.user || session?.user }));
         setUser(response?.user || session?.user);
       } catch (error) {
-        toast.error((error.response?.data?.message || error.message),{
-          position: "top-right"
+        toast.error(error.response?.data?.message || error.message, {
+          position: "top-right",
         });
       }
     }
 
     fetchProfile();
-    
-  },[session])
-
-  
-
+  }, [session]);
 
   const handleLogout = async () => {
-    // if(session){
-    //   signOut().then(dispatch(logoutUserThunk()))
-    // } else {
-    //   dispatch(logoutUserThunk())
-    // }
-    dispatch(logoutUserThunk())
+    dispatch(logoutUserThunk());
     signOut();
     setUser(null);
-  }
+  };
+
+  
 
   return (
     <nav className="flex justify-between items-center px-4 md:px-8 bg-[#eea679b0] py-2">
@@ -80,31 +75,38 @@ const Navbar = () => {
             <Categories />
           </li>
           <li>
-            <Link href={'/pages/shayari'}>Shayari</Link>
+            <Link href={"/pages/shayari"}>Shayari</Link>
           </li>
           <li>
-            <Link href={'/pages/favourites'}>Favourites</Link>
+            <Link href={"/pages/favourites"}>Favourites</Link>
           </li>
           <li>
             <Link href="/pages/submit-shayari">Submit Shayari</Link>
           </li>
+          {user?.role == "admin" && (
+            <li>
+              <Link href="/pages/admin">Admin</Link>
+            </li>
+          )}
           <li>
             <ModeToggle />
           </li>
-          {
-            (session || user) ? (
-              <Button
+          {session || user ? (
+            <Button
               onClick={handleLogout}
-              className="w-fit px-3 py-1 cursor-pointer">Logout</Button>
-            ) : (
-              <li>
-            <Link href="/pages/login" className="cursor-pointer">
-            <Button className="w-fit px-3 py-1 cursor-pointer">Login</Button>
-            </Link>
-          </li>
-            )
-          }
-          
+              className="w-fit px-3 py-1 cursor-pointer"
+            >
+              Logout
+            </Button>
+          ) : (
+            <li>
+              <Link href="/pages/login" className="cursor-pointer">
+                <Button className="w-fit px-3 py-1 cursor-pointer">
+                  Login
+                </Button>
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
 
