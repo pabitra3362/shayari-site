@@ -1,9 +1,13 @@
+import { verifyToken } from "@/lib/middlewares/authMiddleware";
 import { notFound, serverError, success } from "@/lib/response";
 import { getAllUserService } from "@/lib/services/userService";
 
 
-export async function GET(){
+export async function GET(request){
     try {
+        const user = await verifyToken(request);
+        if(user?.role !== "admin") throw new Error("Don't have  privilege");
+        
         const users = await getAllUserService();
 
         if(!users) return notFound({message: "No user found", success:true})
