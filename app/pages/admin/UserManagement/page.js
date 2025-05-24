@@ -33,9 +33,11 @@ const UserManagement = () => {
   const handleDelete = async (id) => {
     try {
       const result = await deleteUser(id);
-      console.log(result);
       
       if(result.status === 200){
+        const updatedUsers = users.filter(user => id!==user.id)
+        setUsers(updatedUsers);
+        
         toast.success(result.message,{
           position: "top-right"
         })
