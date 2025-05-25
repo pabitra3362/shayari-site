@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loder";
 import SheetDemo from "@/components/Sheet";
 import { deleteUser, getAllUsers } from "@/services/adminService";
 import React, { useEffect, useState } from "react";
@@ -7,6 +8,8 @@ import { toast } from "sonner";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stateChange, setStateChange] = useState(false);
 
   
   
@@ -25,11 +28,13 @@ const UserManagement = () => {
         toast.error(error.response?.data?.message || error.message, {
           position: "top-right",
         });
+      } finally {
+        setLoading(false);
       }
-    }
+    } 
     
     fetchUsers();
-  }, []);
+  }, [stateChange]);
   
   const handleDelete = async (id) => {
     try {
@@ -57,7 +62,12 @@ const UserManagement = () => {
 
   return (
     <div className="w-full min-h-screen p-4 bg-background">
-      <table className=" w-full table-auto">
+      {loading ? (
+        <div className="h-screen flex justify-center items-center">
+          <Loader />
+        </div>
+      ) : (
+        <table className=" w-full table-auto">
         <thead>
           <tr className="bg-muted text-left ">
             <th className="border px-4 py-2">Sr No.</th>
@@ -77,12 +87,7 @@ const UserManagement = () => {
               <td className="border px-4 py-2">{user.role}</td>
               <td className="border px-4 py-2">{user.email}</td>
               <td className="border px-4 py-2 flex gap-5  items-center">
-                {/* <button className="bg-linear-to-r from-[#e85e5e] to-[#eea679b0] hover:from-[#eea679b0] hover:to-[#e85e5e] transition-all duration-300 px-3 py-1 rounded cursor-pointer"
-                
-                >
-                  Change Role
-                </button> */}
-                <SheetDemo id={user.id} />
+                <SheetDemo id={user.id} setStateChange={setStateChange} />
                 <button className="bg-red-600 px-3 py-1 rounded cursor-pointer"
                 onClick={()=>handleDelete(user.id)}
                 >
@@ -93,6 +98,7 @@ const UserManagement = () => {
           ))}
         </tbody>
       </table>
+      )}
     </div>
   );
 };

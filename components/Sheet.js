@@ -27,7 +27,7 @@ import { toast } from "sonner";
 import { getUserById, updateUserDetails } from "@/services/adminService";
 import { Spinner } from "flowbite-react";
 
-const SheetDemo = ({ id }) => {
+const SheetDemo = ({ id, setStateChange }) => {
   const [userDetails, setUserDetails] = useState({});
 
   // getting user details as page load
@@ -87,6 +87,8 @@ const SheetDemo = ({ id }) => {
         toast.error(error.response?.data?.message || error.message,{
             position: "top-right"
         });
+    } finally {
+        setStateChange(prev=>!prev);
     }
   };
 
@@ -173,11 +175,8 @@ const SheetDemo = ({ id }) => {
               )}
             </div>
             <SheetFooter>
-              <Button type="submit" disabled={isSubmitting} className={`${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>{ isSubmitting ? <Spinner /> : "Save changes" }</Button>
               <SheetClose asChild>
-                <Button type="submit" className={"w-full"}>
-                  close
-                </Button>
+                <Button type="submit" disabled={isSubmitting} className={`${isSubmitting ? "cursor-not-allowed" : "cursor-pointer"}`}>{ isSubmitting ? <Spinner /> : "Save changes" }</Button>
               </SheetClose>
             </SheetFooter>
           </div>
