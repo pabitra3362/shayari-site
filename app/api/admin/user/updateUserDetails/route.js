@@ -1,6 +1,6 @@
 import { verifyToken } from "@/lib/middlewares/authMiddleware";
 import { serverError, success } from "@/lib/response";
-import { updateUserRoleService } from "@/lib/services/userService";
+import { updateUserDetailsService } from "@/lib/services/userService";
 
 
 
@@ -12,11 +12,11 @@ export async function PUT(req){
             throw new Error("Don't have privilege")
         }
 
-        const {id, role} = await req.json();
+        const {id, data} = await req.json();
 
-        updateUserRoleService({id, role});
+        await updateUserDetailsService({id, data});
 
-        return success({message: "Role updated"}) 
+        return success({message: "User details updated"}) 
 
     } catch (error) {
         return serverError({message: error.message})

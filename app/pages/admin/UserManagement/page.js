@@ -1,5 +1,6 @@
 "use client";
 
+import SheetDemo from "@/components/Sheet";
 import { deleteUser, getAllUsers } from "@/services/adminService";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -76,11 +77,12 @@ const UserManagement = () => {
               <td className="border px-4 py-2">{user.role}</td>
               <td className="border px-4 py-2">{user.email}</td>
               <td className="border px-4 py-2 flex gap-5  items-center">
-                <button className="bg-linear-to-r from-[#e85e5e] to-[#eea679b0] hover:from-[#eea679b0] hover:to-[#e85e5e] transition-all duration-300 px-3 py-1 rounded cursor-pointer"
+                {/* <button className="bg-linear-to-r from-[#e85e5e] to-[#eea679b0] hover:from-[#eea679b0] hover:to-[#e85e5e] transition-all duration-300 px-3 py-1 rounded cursor-pointer"
                 
                 >
                   Change Role
-                </button>
+                </button> */}
+                <SheetDemo id={user.id} />
                 <button className="bg-red-600 px-3 py-1 rounded cursor-pointer"
                 onClick={()=>handleDelete(user.id)}
                 >
